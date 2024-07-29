@@ -12,8 +12,8 @@
             <div id="result">0</div>
         </div>
         <div id="first-row">
-            <button onclick="clearInput()">C</button>
-            <button class="operator">÷</button>
+            <button onclick="clearInput()" class="red-button" id="clearbtn">C</button>
+            <button class="operator" id="dividebtn">÷</button>
         </div>
         <div id="second-row">
             <button class="number">7</button>
@@ -35,8 +35,8 @@
         </div>
         <div id="last-row">
             <button class="number">0</button>
-            <button class="number">.</button>
-            <button class="equals" onclick="equals()">=</button>
+            <button class="number" id="point">.</button>
+            <button class="equals red-button" onclick="equals()">=</button>
         </div>
     </div>
 <script src="./script.js"></script>

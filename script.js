@@ -31,12 +31,19 @@ let firstValue = "";
 let operatorValue = "";
 let secondValue = "";
 let num = [...document.getElementsByClassName("number")];
+let point = document.getElementById("point");
 num.forEach(function (item) {
   item.addEventListener("click", function () {
     if (operatorValue === "") {
       firstValue += item.innerHTML;
+      if (firstValue.includes(".")) {
+        point.classList.add("hidden");
+      }
       displayResult(firstValue);
     } else if (firstValue !== "" && operatorValue !== "") {
+      if (secondValue.includes(".")) {
+        point.classList.add("hidden");
+      }
       secondValue += item.innerHTML;
       displayResult(secondValue);
     }
@@ -46,6 +53,7 @@ num.forEach(function (item) {
 let operator = [...document.getElementsByClassName("operator")];
 operator.forEach(function (item) {
   item.addEventListener("click", function () {
+    point.classList.remove("hidden");
     operatorValue += item.innerHTML;
     displayResult(operatorValue);
   });
@@ -54,11 +62,16 @@ operator.forEach(function (item) {
 function equals() {
   firstValue = Number(firstValue);
   secondValue = Number(secondValue);
-  result = operate(firstValue, operatorValue, secondValue);
-  displayResult(result);
-  firstValue = result;
-  operatorValue = "";
-  secondValue = "";
+  point.classList.remove("hidden");
+  if (operatorValue === "÷" && secondValue === 0) {
+    displayResult("fuck you");
+  } else {
+    result = operate(firstValue, operatorValue, secondValue);
+    displayResult(result);
+    firstValue = result;
+    operatorValue = "";
+    secondValue = "";
+  }
 }
 
 function displayResult(a) {
@@ -72,6 +85,7 @@ function inputNumber(event) {
 }
 
 function clearInput() {
+  point.classList.remove("hidden");
   firstValue = "0";
   secondValue = "";
   operatorValue = "";
