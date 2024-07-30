@@ -1,32 +1,3 @@
-function add(a, b) {
-  return a + b;
-}
-
-function substract(a, b) {
-  return a - b;
-}
-
-function divide(a, b) {
-  return a / b;
-}
-
-function multiply(a, b) {
-  return a * b;
-}
-
-function operate(a, b, c) {
-  switch (b) {
-    case "+":
-      return add(a, c);
-    case "-":
-      return substract(a, c);
-    case "÷":
-      return divide(a, c);
-    case "x":
-      return multiply(a, c);
-  }
-}
-
 let firstValue = "";
 let operatorValue = "";
 let secondValue = "";
@@ -50,6 +21,20 @@ num.forEach(function (item) {
   });
 });
 
+let deleteButton = document.getElementById("delBtn");
+deleteButton.addEventListener("click", function () {
+  if (operatorValue === "") {
+    firstValue = firstValue.slice(0, -1);
+    displayResult(firstValue);
+  } else if (firstValue !== "" && operatorValue !== "" && secondValue === "") {
+    operatorValue = "";
+    displayResult(firstValue);
+  } else if (operatorValue !== "" && firstValue !== "") {
+    secondValue = secondValue.slice(0, -1);
+    displayResult(secondValue);
+  }
+});
+
 let operator = [...document.getElementsByClassName("operator")];
 operator.forEach(function (item) {
   item.addEventListener("click", function () {
@@ -58,6 +43,19 @@ operator.forEach(function (item) {
     displayResult(operatorValue);
   });
 });
+
+function operate(a, b, c) {
+  switch (b) {
+    case "+":
+      return a + b;
+    case "-":
+      return a - c;
+    case "÷":
+      return a / c;
+    case "x":
+      return a * c;
+  }
+}
 
 function equals() {
   firstValue = Number(firstValue);
@@ -91,4 +89,96 @@ function clearInput() {
   operatorValue = "";
   displayResult(firstValue);
   firstValue = "";
+}
+
+document.addEventListener("keydown", handleKeyDown);
+
+function handleKeyDown(event) {
+  const key = event.key;
+
+  if (isNumberKey(key)) {
+    handleNumberKey(key);
+  } else if (isOperatorKey(key)) {
+    handleOperatorKey(key);
+  } else if (key === ".") {
+    handleDecimalPoint(key);
+  } else if (key === "Backspace") {
+    handleDelete();
+  } else if (key === "Enter" || key === "=") {
+    handleEqual();
+  } else if (key === "Escape") {
+    handleClear();
+  }
+}
+
+function isNumberKey(key) {
+  return !isNaN(key);
+}
+
+function isOperatorKey(key) {
+  return ["+", "-", "/", "*"].includes(key);
+}
+
+function handleNumberKey(key) {
+  if (operatorValue === "") {
+    firstValue += key;
+    displayResult(firstValue);
+  } else {
+    secondValue += key;
+    displayResult(secondValue);
+  }
+}
+
+function handleOperatorKey(key) {
+  if (firstValue !== "" && secondValue === "") {
+    operatorValue = key;
+    displayResult(operatorValue);
+  }
+}
+
+function handleDecimalPoint(key) {
+  if (operatorValue === "") {
+    if (!firstValue.includes(".")) {
+      firstValue += ".";
+      point.classList.add("hidden");
+      displayResult(firstValue);
+    }
+  } else {
+    if (!secondValue.includes(".")) {
+      secondValue += ".";
+      point.classList.add("hidden");
+      displayResult(secondValue);
+    }
+  }
+}
+
+function handleDelete() {
+  if (operatorValue === "") {
+    firstValue = firstValue.slice(0, -1);
+    displayResult(firstValue);
+  } else if (firstValue !== "" && operatorValue !== "" && secondValue === "") {
+    operatorValue = "";
+    displayResult(firstValue);
+  } else if (operatorValue !== "" && firstValue !== "") {
+    secondValue = secondValue.slice(0, -1);
+    displayResult(secondValue);
+  }
+}
+
+function handleEqual() {
+  if (firstValue !== "" && operatorValue !== "" && secondValue !== "") {
+    let result = eval(`${firstValue} ${operatorValue} ${secondValue}`);
+    displayResult(result);
+    firstValue = result.toString();
+    operatorValue = "";
+    secondValue = "";
+  }
+}
+
+function handleClear() {
+  point.classList.remove("hidden");
+  firstValue = "";
+  secondValue = "";
+  operatorValue = "";
+  displayResult(firstValue);
 }

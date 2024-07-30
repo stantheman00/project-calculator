@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'Gameboy';
+    src: url('./GameBoy.ttf');
+}
+body {
+    font-family: 'Gameboy';
+}
+
+html{
+    font-family: 'Gameboy';
+}
+button{
+    font-family:'Gameboy';
+}
 #calculator{
     width:400px;
     height:500px;
@@ -54,10 +68,12 @@
 
 #result{
     display: flex;
-    width: 500px;
     font-size: 30px;
     flex-direction: row-reverse;
-    margin-right:10px;
+    margin: 0px 10px;
+    width:100%;
+    word-break:break-word;
+    overflow:hidden;
 }
 .number{
     background-color: #9ca04c;
